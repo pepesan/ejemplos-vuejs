@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Ejemplo base de VueJS</title>
+    <meta charset="utf-8"/>
+    <!-- development version, includes helpful console warnings -->
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <!-- production version, optimized for size and speed -->
+    <!--script src="node_modules/vue/dist/vue.min.js"></script-->
+    <script>
+      //Definición de un componente
+        Vue.component('eventos', {
+            data: function () {
+                return {
+                    count: 0
+                }
+            },
+            methods:{
+                clickado:function () {
+                    this.count++;
+                }
+            },
+            template: '<button @click="clickado">Me has hecho click {{ count }} veces.</button>'
+        });
+      Vue.component('objeto-eventos', {
+          data: function () {
+              return {
+                  count: 0
+              }
+          },
+          methods:{
+              clickado:function (event) {
+                  console.log(event.target.innerHTML);
+                  this.count++;
+              }
+          },
+          template: '<button @click="clickado">Me has hecho click {{ count }} veces.</button>'
+      });
+
+
+      document.addEventListener("DOMContentLoaded",function(){
+        var app = new Vue({
+            el: '#app',
+            methods:{
+                say:function (mensaje) {
+                    console.log(mensaje)
+                },
+                warn: function (message, event) {
+                    // acceso al evento y al mensaje
+                    if (event) {
+                        event.preventDefault();
+                        console.log(event.target.tagName);
+                    }
+                    console.log(message);
+
+                }
+            }
+        });
+      });
+      
+    </script>
+  </head>
+  <body>
+    <div id="app">
+      <p><eventos></eventos></p>
+      <p><objeto-eventos></objeto-eventos></p>
+      <p><button @click="say('hola')">Di Hola</button></p>
+      <p><button @click="warn('Mensaje!', $event)">
+        Avisar
+      </button></p>
+    </div>
+
+  </body>
+</html>
