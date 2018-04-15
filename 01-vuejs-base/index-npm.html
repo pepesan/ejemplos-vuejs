@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Ejemplo base de VueJS</title>
+    <meta charset="utf-8"/>
+  </head>
+  <body>
+
+    <!-- development version, includes helpful console warnings -->
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <!-- production version, optimized for size and speed -->
+    <!--script src="node_modules/vue/dist/vue.min.js"></script-->
+    <div id="app">
+      {{ message }}
+    </div>
+    <script>
+      var app = new Vue({
+          el: '#app',
+          data: {
+            message: 'Hola Mundo de VueJS'
+          }
+        });
+    </script>
+  </body>
+</html>
