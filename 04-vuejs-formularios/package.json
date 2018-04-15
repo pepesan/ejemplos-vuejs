@@ -9,6 +9,7 @@
   "author": "David Vaquero <pepesan@gmail.com>",
   "license": "GPL-3.0",
   "dependencies": {
+    "vee-validate": "^2.0.6",
     "vue": "^2.5.16"
   }
 }

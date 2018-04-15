@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Ejemplo base de VueJS</title>
+    <meta charset="utf-8"/>
+    <!-- development version, includes helpful console warnings -->
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <!-- sistema de validaciones vee-validator -->
+    <script src="node_modules/vee-validate/dist/vee-validate.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js" integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous"></script>
+
+
+    <!-- production version, optimized for size and speed -->
+    <!--script src="node_modules/vue/dist/vue.min.js"></script-->
+    <script>
+
+      document.addEventListener("DOMContentLoaded",function(){
+          Vue.use(VeeValidate); // good to go.
+          var app = new Vue({
+            el: '#app',
+            data:function () {
+                return {
+                  visto:true,
+                  email: '',
+                  email2: '',
+                  name2: '',
+                  email3: '',
+                  name3: '',
+                  phone3: '',
+                  url3: ''
+                }
+            },
+              methods: {
+                  validateBeforeSubmit() {
+                      this.$validator.validateAll().then((result) => {
+                          if (result) {
+                              // eslint-disable-next-line
+                              console.log('Form Submitted!');
+                              return;
+                          }
+
+                          console.log('Correct them errors!');
+                      });
+                  }
+              }
+          });
+
+      });
+      
+    </script>
+  </head>
+  <body>
+    <div id="app" v-if="visto">
+      <div class="column is-12">
+        <label class="label" for="email">Email</label>
+        <p :class="{ 'control': true }">
+          <input id="email" v-validate="'required|email'" :class="{'input': true, 'is-danger': errors.has('email') }" name="email" type="text" placeholder="Email">
+          <span v-show="errors.has('email')" class="help is-danger">{{ errors.first('email') }}</span>
+        </p>
+      </div>
+      <div class="columns is-multiline">
+        <div class="column is-12">
+          <label class="label">Email (1s delay)</label>
+          <p class="control has-icon has-icon-right">
+            <input id="email2" name="email2" v-validate="'required|email'" data-vv-delay="1000" :class="{'input': true, 'is-danger': errors.has('email2') }" type="text" placeholder="Email">
+            <i v-show="errors.has('email2')" class="fa fa-warning"></i>
+            <span v-show="errors.has('email2')" class="help is-danger">{{ errors.first('email2') }}</span>
+          </p>
+        </div>
+        <div class="column is-12">
+          <label class="label">Name (0.5s delay)</label>
+          <p class="control has-icon has-icon-right">
+            <input name="name" v-validate="'required|alpha'" data-vv-delay="500" :class="{'input': true, 'is-danger': errors.has('name') }" type="text" placeholder="Name">
+            <i v-show="errors.has('name')" class="fa fa-warning"></i>
+            <span v-show="errors.has('name')" class="help is-danger">{{ errors.first('name') }}</span>
+          </p>
+        </div>
+      </div>
+      <form @submit.prevent="validateBeforeSubmit">
+        <div class="column is-12">
+          <label class="label">Email</label>
+          <p class="control has-icon has-icon-right">
+            <input name="email3" v-model="email3" v-validate="'required|email'" :class="{'input': true, 'is-danger': errors.has('email3') }" type="text" placeholder="Email">
+            <i v-show="errors.has('email3')" class="fa fa-warning"></i>
+            <span v-show="errors.has('email3')" class="help is-danger">{{ errors.first('email3') }}</span>
+          </p>
+        </div>
+        <div class="column is-12">
+          <label class="label">Name</label>
+          <p class="control has-icon has-icon-right">
+            <input name="name3" v-model="name3" v-validate="'required|alpha'" :class="{'input': true, 'is-danger': errors.has('name3') }" type="text" placeholder="Name">
+            <i v-show="errors.has('name3')" class="fa fa-warning"></i>
+            <span v-show="errors.has('name3')" class="help is-danger">{{ errors.first('name3') }}</span>
+          </p>
+        </div>
+        <div class="column is-12">
+          <label class="label">Phone</label>
+          <p class="control has-icon has-icon-right">
+            <input name="phone3" v-model="phone3" v-validate="'required|numeric'" :class="{'input': true, 'is-danger': errors.has('phone3') }" type="text" placeholder="Phone">
+            <i v-show="errors.has('phone3')" class="fa fa-warning"></i>
+            <span v-show="errors.has('phone3')" class="help is-danger">{{ errors.first('phone3') }}</span>
+          </p>
+        </div>
+        <div class="column is-12">
+          <label class="label">Website</label>
+          <p class="control has-icon has-icon-right">
+            <input name="url3" v-model="url3" v-validate="'required|url'" :class="{'input': true, 'is-danger': errors.has('url3') }" type="text" placeholder="Website">
+            <i v-show="errors.has('url3')" class="fa fa-warning"></i>
+            <span v-show="errors.has('url3')" class="help is-danger">{{ errors.first('url3') }}</span>
+          </p>
+        </div>
+
+        <div class="column is-12">
+          <p class="control">
+            <button class="button is-primary" type="submit">Submit</button>
+          </p>
+        </div>
+      </form>
+    </div>
+
+  </body>
+</html>
