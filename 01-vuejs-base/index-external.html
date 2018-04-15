@@ -4,9 +4,10 @@
     <title>Ejemplo base de VueJS</title>
     <meta charset="utf-8"/>
     <!-- development version, includes helpful console warnings -->
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script src="node_modules/vue/dist/vue.js"></script>
     <!-- production version, optimized for size and speed -->
-    <!--script src="https://cdn.jsdelivr.net/npm/vue@2.5.16"></script-->
+    <!--script src="node_modules/vue/dist/vue.min.js"></script-->
+    <script src="index-external.js"></script>
   </head>
   <body>
 
@@ -14,13 +15,6 @@
     <div id="app">
       {{ message }}
     </div>
-    <script>
-      var app = new Vue({
-          el: '#app',
-          data: {
-            message: 'Hola Mundo de VueJS'
-          }
-        });
-    </script>
+    
   </body>
 </html>
