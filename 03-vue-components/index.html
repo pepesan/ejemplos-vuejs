@@ -8,6 +8,7 @@
     <!-- production version, optimized for size and speed -->
     <!--script src="node_modules/vue/dist/vue.min.js"></script-->
     <script>
+      //Definición de un componente
         Vue.component('button-counter', {
             data: function () {
                 return {
@@ -16,20 +17,65 @@
             },
             template: '<button v-on:click="count++">You clicked me {{ count }} times.</button>'
         });
-    document.addEventListener("DOMContentLoaded",function(){
-      var app = new Vue({ el: '#components-demo' });
-    });
+        //paso de parámetros a un componente
+        Vue.component('blog-post', {
+            props: ['title'],
+            template: '<h3>{{ title }}</h3>'
+        });
+
+        //componentes anidados
+      //componente hijo
+      Vue.component('hijo', {
+          template: '<div><h4>Dato: {{dato}}</h4><button v-on:click="increment">{{ counter }}</button></div>',
+          props: ['dato'],
+          data: function () {
+              return {
+                  counter: 0
+              }
+          },
+          methods: {
+              increment: function () {
+                  this.counter++;
+                  this.$emit('increment');
+              }
+          },
+      });
+      Vue.component('padre',{
+          data: function(){
+              return {
+                  total: 0
+              }
+          },
+          methods: {
+              incrementTotal: function () {
+                  this.total++
+              }
+          },
+          template:'<div><p>{{ total }}</p>\n' +
+          '        <hijo @increment="incrementTotal" dato="2"></hijo>' +
+          '        <hijo   @increment="incrementTotal" dato="5"></hijo></div>'
+      });
+
+      document.addEventListener("DOMContentLoaded",function(){
+        var app = new Vue({ el: '#components-demo' });
+      });
       
     </script>
   </head>
   <body>
-
-    
-
-      <div id="components-demo">
-        <button-counter></button-counter>
-      </div>
-
+    <div id="components-demo">
+      <!-- uso de un componente -->
+      <button-counter></button-counter>
+      <button-counter></button-counter>
+      <button-counter></button-counter>
+      <!-- paso de parámetros -->
+      <blog-post title="Mi título molón"></blog-post>
+      <blog-post title="Otro título distinto"></blog-post>
+      <blog-post title="All you need is Love"></blog-post>
+      <!-- componentes anidados -->
+      <padre>
+      </padre>
+    </div>
 
   </body>
 </html>
