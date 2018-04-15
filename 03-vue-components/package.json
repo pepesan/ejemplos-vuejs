@@ -1,0 +1,14 @@
+{
+  "name": "01-vuejs-base",
+  "version": "1.0.0",
+  "description": "ejemplo base de vueJS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "David Vaquero <pepesan@gmail.com>",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "vue": "^2.5.16"
+  }
+}

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Ejemplo base de VueJS</title>
+    <meta charset="utf-8"/>
+    <!-- development version, includes helpful console warnings -->
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <!-- production version, optimized for size and speed -->
+    <!--script src="node_modules/vue/dist/vue.min.js"></script-->
+    <script>
+    document.addEventListener("DOMContentLoaded",function(){
+      var app = new Vue({
+          el: '#app',
+          data: {
+            message: 'Hola Mundo de VueJS',
+            legacySystemHTML: `
+              <FONT color="#faddad" size="+2">
+                <MARQUEE>Please enter your name to continue.</MARQUEE>
+              </FONT>
+            `,
+            dynamicId:"mi-id",
+            otroId:"otro-id",
+            isButtonDisabled: true,
+            objeto:{
+                prop1:1,
+                prop2:"valor"
+            },
+            seen:true,
+            url:"http://cursosdedesarrollo.com/"
+          },
+          methods:{
+              hazAlgo:function () {
+                  console.log("He hecho algo");
+              },
+              onSubmit:function(){
+                  console.log("enviado");
+              }
+          },
+          computed: {
+              // a computed getter
+              reversedMessage: function () {
+                  // `this` points to the vm instance
+                  return this.message.split('').reverse().join('')
+              }
+          }
+        });  
+    });
+      
+    </script>
+  </head>
+  <body>
+
+    
+    <div id="app">
+      <h1>{{ message }}</h1>
+      <!-- Interpolaciones -->
+      <!-- v-once permite que un dato no se pueda cambiar -->
+      <span v-once>This will never change: {{ message }}</span>
+      <!-- Using v-html directive:  -->
+      <p><span v-html="legacySystemHTML"></span></p>
+      <!--Mustaches no se puede utilizar dentro de los atributos.
+      Para eso se usa la directiva v-bind-->
+      <div v-bind:id="dynamicId">
+        <p>Div con id Dinámico</p>
+        <!-- uso de atributos de manera condicional -->
+        <button v-bind:disabled="isButtonDisabled">Button</button>
+        <!-- acceso a atributos de un objeto pasado a la vista -->
+        <p>{{objeto.prop2}}</p>
+      </div>
+      <!-- directivas -->
+      <p v-if="seen">Ahora me ves!!!</p>
+      <a v-bind:href="url">Enlace</a>
+      <p><button v-on:click="hazAlgo">Haz algo</button></p>
+      <!-- shorthands o cómo resumir las directivas y eventos -->
+      <!-- acceso al tributo id -->
+      <div :id="otroId">
+        <p>Otro Div</p>
+        <!-- acceso al onclick -->
+        <p><button @click="hazAlgo">Haz algo</button></p>
+      </div>
+      <!-- acceso al uso de event.preventDefault() mediante un modificador-->
+      <form @submit.prevent="onSubmit">
+        <input type="submit" value="enviar"/>
+      </form>
+      <!-- mensajes computados -->
+      <p>{{reversedMessage}}</p>
+    </div>
+
+  </body>
+</html>
