@@ -18,6 +18,19 @@
                 }
             }
         });
+          var miapp = new Vue({
+              el: '#miapp',
+              data:function () {
+                  return {
+                      objeto:{
+                          message:""
+                      }
+                  }
+              },
+              created:function () {
+                  this.objeto.message="valor inicial"
+              }
+          });
           const app2 = new Vue({
               el:'#app2',
               data:{
@@ -70,6 +83,10 @@
     <div id="app">
       <p><input v-model="message" placeholder="edita me"></p>
       <p>El mensaje es: {{ message }}</p>
+    </div>
+    <div id="miapp">
+      <p><input v-model="objeto.message" placeholder="edita me"></p>
+      <p>El mensaje es: {{ objeto.message }}</p>
     </div>
     <form id="app2" @submit="checkForm" action="/something" method="post">
 

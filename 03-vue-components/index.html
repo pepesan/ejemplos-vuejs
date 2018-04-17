@@ -26,7 +26,8 @@
         //componentes anidados
       //componente hijo
       Vue.component('hijo', {
-          template: '<div><h4>Dato: {{dato}}</h4><button v-on:click="increment">{{ counter }}</button></div>',
+          template: '<div><h4>Dato: {{dato}}</h4>' +
+          '<button @click="increment">{{ counter }}</button></div>',
           props: ['dato'],
           data: function () {
               return {

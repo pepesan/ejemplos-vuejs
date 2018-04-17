@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Ejemplo base de VueJS</title>
+    <meta charset="utf-8"/>
+    <!-- development version, includes helpful console warnings -->
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <!-- production version, optimized for size and speed -->
+    <!--script src="node_modules/vue/dist/vue.min.js"></script-->
+    <script>
+    document.addEventListener("DOMContentLoaded",function(){
+        var app=new Vue({
+            el: '#demo',
+            data: {
+                show: true
+            }
+        })
+    });
+      
+    </script>
+  </head>
+  <body>
+
+
+  <div id="demo">
+    <button @click="show = !show">
+      Toggle
+    </button>
+    <transition name="fade">
+      <p v-if="show">hello</p>
+    </transition>
+  </div>
+  <style>
+    .fade-enter-active, .fade-leave-active {
+      transition: opacity .5s;
+    }
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+      opacity: 0;
+    }
+  </style>
+  </body>
+</html>
