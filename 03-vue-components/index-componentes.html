@@ -27,8 +27,14 @@
       //componente hijo
       Vue.component('hijo', {
           template: '<div><h4>Dato: {{dato}}</h4>' +
-          '<button @click="increment">{{ counter }}</button></div>',
-          props: ['dato'],
+          '<ul>' +
+          '<li v-for="item in listado">{{item}}</li>' +
+          '</ul>' +
+          '<button @click="increment">{{ counter }}</button>' +
+          '<button @click="addItem">Add Item</button>' +
+          '<button @click="tomaPadre">Ejecuta Padre</button>' +
+          '</div>',
+          props: ['dato','listado','padre'],
           data: function () {
               return {
                   counter: 0
@@ -38,14 +44,29 @@
               increment: function () {
                   this.counter++;
                   this.$emit('increment');
+              },
+              addItem:function () {
+                  this.listado.push("elemento");
+              },
+              tomaPadre:function () {
+                  this.padre.incrementTotal();
               }
           },
       });
       Vue.component('padre',{
           data: function(){
               return {
-                  total: 0
+                  total: 0,
+                  listado:[
+                      "ele1",
+                      "ele2",
+                      "ele3"
+                  ],
+                  padre:null
               }
+          },
+          created:function(){
+            this.padre=this;
           },
           methods: {
               incrementTotal: function () {
@@ -53,8 +74,11 @@
               }
           },
           template:'<div><p>{{ total }}</p>\n' +
-          '        <hijo @increment="incrementTotal" dato="2"></hijo>' +
-          '        <hijo   @increment="incrementTotal" dato="5"></hijo></div>'
+          '<ul>' +
+          '<li v-for="item in listado">{{item}}</li>' +
+          '</ul>' +
+          '<hijo @increment="incrementTotal" dato="2" :listado="listado" :padre="padre"></hijo>' +
+          '<hijo   @increment="incrementTotal" dato="5" :listado="listado" :padre="padre"></hijo></div>'
       });
 
       document.addEventListener("DOMContentLoaded",function(){
