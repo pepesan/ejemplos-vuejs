@@ -5,6 +5,7 @@
       <li>
         <router-link to="/">Home</router-link>
         <router-link to="/about">About</router-link>
+        <router-link to="/otro/2">Otro</router-link>
       </li>
     </ul>
     <router-view/>

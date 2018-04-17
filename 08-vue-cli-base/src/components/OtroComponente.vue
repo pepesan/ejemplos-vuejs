@@ -1,16 +1,17 @@
 <template>
   <div class="about">
     <h1>{{ msg }}</h1>
+    <h2>{{ $route.params.id }}</h2>
     <p><button @click="volver">Volver</button></p>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'About',
+  name: 'OtroComponente',
   data () {
     return {
-      msg: 'About'
+      msg: 'OtroComponente'
     }
   },
   methods: {
