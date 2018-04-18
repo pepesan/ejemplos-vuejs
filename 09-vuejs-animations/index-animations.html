@@ -14,6 +14,133 @@
             data: {
                 show: true
             }
+        });
+        new Vue({
+            el: '#example-1',
+            data: {
+                show: true
+            }
+        });
+        new Vue({
+            el: '#example-2',
+            data: {
+                show: true
+            }
+        });
+        new Vue({
+            el: '#example-3',
+            data: {
+                show: true
+            }
+        });
+        new Vue({
+            el: '#example-4',
+            data: {
+                show: false
+            },
+            methods: {
+                beforeEnter: function (el) {
+                    el.style.opacity = 0
+                },
+                enter: function (el, done) {
+                    Velocity(el, { opacity: 1, fontSize: '1.4em' }, { duration: 300 })
+                    Velocity(el, { fontSize: '1em' }, { complete: done })
+                },
+                leave: function (el, done) {
+                    Velocity(el, { translateX: '15px', rotateZ: '50deg' }, { duration: 600 })
+                    Velocity(el, { rotateZ: '100deg' }, { loop: 2 })
+                    Velocity(el, {
+                        rotateZ: '45deg',
+                        translateY: '30px',
+                        translateX: '30px',
+                        opacity: 0
+                    }, { complete: done })
+                }
+            }
+        });
+        new Vue({
+            el: '#list-demo',
+            data: {
+                items: [1,2,3,4,5,6,7,8,9],
+                nextNum: 10
+            },
+            methods: {
+                randomIndex: function () {
+                    return Math.floor(Math.random() * this.items.length)
+                },
+                add: function () {
+                    this.items.splice(this.randomIndex(), 0, this.nextNum++)
+                },
+                remove: function () {
+                    this.items.splice(this.randomIndex(), 1)
+                },
+            }
+        });
+        new Vue({
+            el: '#animated-number-demo',
+            data: {
+                number: 0,
+                tweenedNumber: 0
+            },
+            computed: {
+                animatedNumber: function() {
+                    return this.tweenedNumber.toFixed(0);
+                }
+            },
+            watch: {
+                number: function(newValue) {
+                    TweenLite.to(this.$data, 0.5, { tweenedNumber: newValue });
+                }
+            }
+        });
+        var Color = net.brehaut.Color
+
+        new Vue({
+            el: '#example-7',
+            data: {
+                colorQuery: '',
+                color: {
+                    red: 0,
+                    green: 0,
+                    blue: 0,
+                    alpha: 1
+                },
+                tweenedColor: {}
+            },
+            created: function () {
+                this.tweenedColor = Object.assign({}, this.color)
+            },
+            watch: {
+                color: function () {
+                    function animate () {
+                        if (TWEEN.update()) {
+                            requestAnimationFrame(animate)
+                        }
+                    }
+
+                    new TWEEN.Tween(this.tweenedColor)
+                        .to(this.color, 750)
+                        .start()
+
+                    animate()
+                }
+            },
+            computed: {
+                tweenedCSSColor: function () {
+                    return new Color({
+                        red: this.tweenedColor.red,
+                        green: this.tweenedColor.green,
+                        blue: this.tweenedColor.blue,
+                        alpha: this.tweenedColor.alpha
+                    }).toCSS()
+                }
+            },
+            methods: {
+                updateColor: function () {
+                    this.color = new Color(this.colorQuery).toRGB()
+                    this.colorQuery = ''
+                }
+            }
         })
     });
       
@@ -30,12 +157,146 @@
       <p v-if="show">hello</p>
     </transition>
   </div>
+  <div id="example-1">
+    <button @click="show = !show">
+      Toggle render
+    </button>
+    <transition name="slide-fade">
+      <p v-if="show">hello</p>
+    </transition>
+  </div>
+  <div id="example-2">
+    <button @click="show = !show">Toggle show</button>
+    <transition name="bounce">
+      <p v-if="show">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris facilisis enim libero, at lacinia diam fermentum id. Pellentesque habitant morbi tristique senectus et netus.</p>
+    </transition>
+  </div>
+
+  <link href="https://cdn.jsdelivr.net/npm/animate.css@3.5.1" rel="stylesheet" type="text/css">
+
+  <div id="example-3">
+    <button @click="show = !show">
+      Toggle render
+    </button>
+    <transition
+            name="custom-classes-transition"
+            enter-active-class="animated tada"
+            leave-active-class="animated bounceOutRight"
+    >
+      <p v-if="show">hello</p>
+    </transition>
+  </div>
+  <!--
+Velocity works very much like jQuery.animate and is
+a great option for JavaScript animations
+-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js"></script>
+
+  <div id="example-4">
+    <button @click="show = !show">
+      Toggle
+    </button>
+    <transition
+            v-on:before-enter="beforeEnter"
+            v-on:enter="enter"
+            v-on:leave="leave"
+            v-bind:css="false"
+    >
+      <p v-if="show">
+        Demo
+      </p>
+    </transition>
+  </div>
+  <div id="list-demo">
+    <button v-on:click="add">Add</button>
+    <button v-on:click="remove">Remove</button>
+    <transition-group name="list" tag="p">
+    <span v-for="item in items" v-bind:key="item" class="list-item">
+      {{ item }}
+    </span>
+    </transition-group>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
+
+  <div id="animated-number-demo">
+    <input v-model.number="number" type="number" step="20">
+    <p>{{ animatedNumber }}</p>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/tween.js@16.3.4"></script>
+  <script src="https://cdn.jsdelivr.net/npm/color-js@1.0.3"></script>
+
+  <div id="example-7">
+    <input
+            v-model="colorQuery"
+            v-on:keyup.enter="updateColor"
+            placeholder="Enter a color"
+    >
+    <button v-on:click="updateColor">Update</button>
+    <p>Preview:</p>
+    <span
+            v-bind:style="{ backgroundColor: tweenedCSSColor }"
+            class="example-7-color-preview"
+    ></span>
+    <p>{{ tweenedCSSColor }}</p>
+  </div>
   <style>
     .fade-enter-active, .fade-leave-active {
       transition: opacity .5s;
     }
     .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
       opacity: 0;
+    }
+    /* Enter and leave animations can use different */
+    /* durations and timing functions.              */
+    .slide-fade-enter-active {
+      transition: all .3s ease;
+    }
+    .slide-fade-leave-active {
+      transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+    }
+    .slide-fade-enter, .slide-fade-leave-to
+      /* .slide-fade-leave-active below version 2.1.8 */ {
+      transform: translateX(10px);
+      opacity: 0;
+    }
+    .bounce-enter-active {
+      animation: bounce-in .5s;
+    }
+    .bounce-leave-active {
+      animation: bounce-in .5s reverse;
+    }
+    @keyframes bounce-in {
+      0% {
+        transform: scale(0);
+      }
+      50% {
+        transform: scale(1.5);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+
+
+    .list-item {
+      display: inline-block;
+      margin-right: 10px;
+    }
+    .list-enter-active, .list-leave-active {
+      transition: all 1s;
+    }
+    .list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+
+
+    .example-7-color-preview {
+      display: inline-block;
+      width: 50px;
+      height: 50px;
     }
   </style>
   </body>
