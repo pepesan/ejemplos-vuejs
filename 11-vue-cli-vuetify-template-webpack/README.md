@@ -1,4 +1,4 @@
-# 11-vue-cli-vuetify
+# 12-vue-cli-vuetify-template-webpack
 
 > A Vue.js project
 
