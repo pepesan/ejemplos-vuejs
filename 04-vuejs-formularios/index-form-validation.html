@@ -32,9 +32,13 @@
               methods: {
                   validateBeforeSubmit() {
                       this.$validator.validateAll().then((result) => {
+                          console.log(result);
+                          console.log(this.$validator);
                           if (result) {
                               // eslint-disable-next-line
                               console.log('Form Submitted!');
+
+                              this.$validator.errors.clear();
                               return;
                           }
 
