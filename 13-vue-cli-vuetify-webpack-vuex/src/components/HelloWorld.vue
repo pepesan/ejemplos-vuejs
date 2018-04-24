@@ -23,9 +23,12 @@
       ]),
     name: 'HelloWorld',
     created: function () {
+      this.number = this.$store.state.number
+      /*
       this.number = this.$store.dispatch('getNumber').then(function (data) {
         return data
       })
+      */
     }
   }
 </script>
